@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from pathlib import Path
 
-with open(Path(__file__) / "README.md", "r", encoding="utf-8") as fh:
+with open(Path(__file__).parent / "README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
@@ -10,7 +10,7 @@ setup(
     author="Matias Taron Simoes",
     author_email="matiastaron@gmail.com",
     url="https://github.com/matiast1905/color_terminal",
-    license="LICENSE",
+    license="MIT License",
     description="Color text and background of terminal output",
     long_description=long_description,
     long_description_content_type="text/markdown",
