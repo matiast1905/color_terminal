@@ -1,1 +1,2 @@
 include ./color_terminal/*.pkl
+exclude ./color_terminal/data_transformation
