@@ -1,8 +1,9 @@
 import pickle
-import sys
 from math import sqrt
 from pathlib import Path
 from typing import Optional
+
+from rgb import RGB
 
 # Escape sequence
 esc = "\033["
@@ -28,7 +29,7 @@ def cprint(
     bold: bool = False,
     sep: str = " ",
     end: str = "\n",
-    file=sys.stdout,
+    file=None,
     flush: bool = False
 ) -> None:
     """
@@ -48,6 +49,7 @@ def cprint(
         file (optional): A file-like object (stream). Defaults to the current sys.stdout.
         flush (bool, optional): Whether to forcibly flush the stream. Defaults to False.
     """
+    # If user doesn't provide text color, bg color or bold, just use the default print function.
     if not text_color and not bg_color and not bold:
         print(*values, sep=sep, end=end, file=file, flush=flush)
         return
@@ -56,16 +58,16 @@ def cprint(
     text_color_int: Optional[int] = None
 
     if bg_color:
+        RGB.validate_color(bg_color)
         if isinstance(bg_color, str):
-            bg_color = _color_hex_to_rgb(bg_color)
-        _validate_rgb_color(bg_color)
-        background_color_int = _get_minor_distance_color(bg_color, colors_dictionary)
+            bg_color = RGB.color_hex_to_rgb(bg_color)
+        background_color_int = _get_minor_distance_color(RGB(*bg_color), colors_dictionary)
 
     if text_color:
+        RGB.validate_color(text_color)
         if isinstance(text_color, str):
-            text_color = _color_hex_to_rgb(text_color)
-        _validate_rgb_color(text_color)
-        text_color_int = _get_minor_distance_color(text_color, colors_dictionary)
+            text_color = RGB.color_hex_to_rgb(text_color)
+        text_color_int = _get_minor_distance_color(RGB(*text_color), colors_dictionary)
 
     print(
         bold_text if bold and not text_color else "",
@@ -80,64 +82,7 @@ def cprint(
     )
 
 
-def _validate_rgb_color(rgb_color: tuple[int, int, int]) -> None:
-    """
-    Validate that the values of the rgb_color are in the correct range
-
-    Args:
-        rgb_color (tuple[int, int, int]): Color in RGB format. ie: (255,255,255)
-
-    Raises:
-        ValueError: If color in wrong format
-    """
-    for value in rgb_color:
-        if value < 0 or value > 255:
-            raise ValueError("Each RGB color value must be in range 0-255")
-
-
-def _color_hex_to_rgb(hex_color: str) -> tuple[int, int, int]:
-    """
-    Helper function that converts a color in hex format '#FFFFFF' to RGB format (255,255,255)
-
-    Args:
-        hex_color (str): Color in hex format. ie:'#FFFFFF'
-
-    Raises:
-        ValueError: If color in wrong format
-
-    Returns:
-        tuple[int, int, int]: Color in RGB format. ie: (255,255,255)
-    """
-    hex_color = hex_color.replace("#", "")
-    if len(hex_color) != 6:
-        raise ValueError("The color should be 6 characters long (besides the #)")
-    hex_color_list = [hex_color[:2], hex_color[2:4], hex_color[4:]]
-    for color in hex_color_list:
-        try:
-            int(color, 16)
-        except ValueError:
-            raise ValueError("Each hex color value must be in range 00-FF")
-    return tuple(map(lambda x: int(x, 16), hex_color_list))
-
-
-def _color_euclidean_distance(color_a: tuple[int, int, int], color_b: tuple[int, int, int]) -> float:
-    """
-    Calculate the euclidean distance between two colors
-
-    Args:
-        color_a (tuple[int, int, int]): Color in RGB format. ie: (255,255,255)
-        color_b (tuple[int, int, int]): Color in RGB format. ie: (255,255,255)
-
-    Returns:
-        float: Euclidean distance between the two colors
-    """
-    distance: float = 0.0
-    for col_a, col_b in zip(color_a, color_b):
-        distance += (col_a - col_b) ** 2
-    return sqrt(distance)
-
-
-def _get_minor_distance_color(selected_color: tuple[int, int, int], colors_dict: dict[str, int]) -> int:
+def _get_minor_distance_color(selected_color: RGB, colors_dict: dict[RGB, int]) -> int:
     """
     Returns the code of the closest color to that selected by the user
 
@@ -151,9 +96,12 @@ def _get_minor_distance_color(selected_color: tuple[int, int, int], colors_dict:
     closest_color = 0
     minor_distance = float("+inf")
     for k, v in colors_dict.items():
-        k = tuple(map(int, k.split(",")))
-        distance = _color_euclidean_distance(k, selected_color)
+        distance = selected_color.euclidean_distance(k)
         if distance < minor_distance:
             minor_distance = distance
             closest_color = v
     return closest_color
+
+
+if __name__ == "__main__":
+    cprint("This is a test now", bg_color="#DDEE00", text_color="#FF0000", bold=False)
