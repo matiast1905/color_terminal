@@ -3,7 +3,7 @@ from math import sqrt
 from pathlib import Path
 from typing import Optional
 
-from rgb import RGB
+from color_terminal.rgb import RGB
 
 # Escape sequence
 esc = "\033["
@@ -104,4 +104,4 @@ def _get_minor_distance_color(selected_color: RGB, colors_dict: dict[RGB, int]) 
 
 
 if __name__ == "__main__":
-    cprint("This is a test now", bg_color="#DDEE00", text_color="#FF0000", bold=False)
+    cprint("Test", text_color="#FF0000")
