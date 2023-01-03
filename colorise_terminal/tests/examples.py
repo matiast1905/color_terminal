@@ -1,4 +1,4 @@
-from color_terminal import cprint
+from colorise_terminal import cprint
 
 
 def print_examples():
