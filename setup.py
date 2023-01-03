@@ -5,8 +5,8 @@ with open(Path(__file__).parent / "README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="color_terminal",
-    version="0.1.0",
+    name="colorise_terminal",
+    version="0.1.1",
     author="Matias Taron Simoes",
     author_email="matiastaron@gmail.com",
     url="https://github.com/matiast1905/color_terminal",

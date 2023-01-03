@@ -1,7 +1,7 @@
 import pandas as pd
 import janitor
 import pickle
-from color_terminal.rgb import RGB
+from colorise_terminal.rgb import RGB
 from pathlib import Path
 
 parent_path = Path(__file__).parent

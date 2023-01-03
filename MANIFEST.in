@@ -1,2 +1,2 @@
-include ./color_terminal/*.pkl
-exclude ./color_terminal/data_transformation
+include ./colorise_terminal/*.pkl
+recursive-exclude ./colorise_terminal/data_transformation/ *

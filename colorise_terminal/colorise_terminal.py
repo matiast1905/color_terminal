@@ -3,7 +3,7 @@ from math import sqrt
 from pathlib import Path
 from typing import Optional
 
-from color_terminal.rgb import RGB
+from colorise_terminal.rgb import RGB
 
 # Escape sequence
 esc = "\033["

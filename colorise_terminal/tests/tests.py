@@ -1,5 +1,5 @@
 import unittest
-from color_terminal import cprint
+from colorise_terminal import cprint
 
 
 class TestValidArguments(unittest.TestCase):
