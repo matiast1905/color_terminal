@@ -23,4 +23,4 @@ These are all optional paramaters, so if you omit all of them `cprint` will beha
 
 Here are some examples of the function working in a terminal session:
 
-![test](./images/colorise_terminal_test.png)
+![test](https://github.com/matiast1905/colorise_terminal/blob/main/images/colorise_terminal_test.png?raw=true)
