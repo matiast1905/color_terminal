@@ -6,7 +6,7 @@ with open(Path(__file__).parent / "README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="colorise_terminal",
-    version="0.1.1",
+    version="0.1.2",
     author="Matias Taron Simoes",
     author_email="matiastaron@gmail.com",
     url="https://github.com/matiast1905/color_terminal",
